@@ -46,7 +46,7 @@
 
 // On board LED
 #if defined(CONFIG_IDF_TARGET_ESP32S3)
-#define BLINK_GPIO 44
+#define BLINK_GPIO 21 // 44  
 #else
 #define BLINK_GPIO 2
 #endif

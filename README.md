@@ -10,6 +10,42 @@ It can achieve a bandwidth of more than 15mbps.
 
 The code is based on the [Console Component](https://docs.espressif.com/projects/esp-idf/en/latest/api-guides/console.html#console) and the [esp-idf-nat-example](https://github.com/jonask1337/esp-idf-nat-example). 
 
+## Build
+- Set up the environment variables
+```
+$ . $HOME/esp/esp-idf-v5.1.2/export.sh
+```
+- Use board [Seeed Studio XIAO ESP32S3 Sense](https://wiki.seeedstudio.com/xiao_esp32s3_getting_started/)
+- Set the chip target to build
+
+```
+$ idf.py set-target esp32s3
+```
+- Open the project configuration menu
+```
+$ idf.py menuconfig
+```
+- Set Flash size  to 8 MB
+```
+(Top) -> Serial flasher config
+    Flash size (8 MB)  --->
+```
+- Use `USB Serial` for console output
+```
+(Top) -> Component config -> ESP System Settings
+    Channel for console output (USB Serial/JTAG Controller)  --->
+    Channel for console secondary output (No secondary console)  --->
+```
+- Save configuration and build the project
+```
+$ idf.py build
+```
+- Connect your device
+- Flash onto the device
+```
+$ idf.py -p /dev/ttyUSB0 flash monitor
+```
+- To exit IDF monitor use the shortcut `Ctrl+]`.
 ## Performance
 
 All tests used `IPv4` and the `TCP` protocol.
@@ -283,7 +319,7 @@ Replace the value of the *MY_DNS_IP_ADDR* with your desired DNS-Server IP addres
 
 ### Line Endings
 
-The line endings in the Console Example are configured to match particular serial monitors. Therefore, if the following log output appears, consider using a different serial monitor (e.g. Putty for Windows or GtkTerm on Linux) or modify the example's UART configuration.
+The line endings in the Console Example are configured to match particular serial monitors. Therefore, if the following log output appears, consider using a different serial monitor (e.g. Putty for Windows or [GtkTerm](https://manpages.ubuntu.com/manpages/jammy/man1/gtkterm.1.html) on Linux) or modify the example's UART configuration.
 
 ```
 This is an example of ESP-IDF console component.
