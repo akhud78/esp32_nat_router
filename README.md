@@ -43,7 +43,7 @@ $ idf.py build
 - Connect your device
 - Flash onto the device
 ```
-$ idf.py -p /dev/ttyUSB0 flash monitor
+$ idf.py -p /dev/ttyACM0 flash monitor
 ```
 - To exit IDF monitor use the shortcut `Ctrl+]`.
 ## Performance
