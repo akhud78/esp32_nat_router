@@ -11,3 +11,6 @@ build/**
 sdkconfig.*
 sdkconfig.old
 !sdkconfig.defaults
+managed_components
+idf_component.yml
+dependencies.lock

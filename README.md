@@ -15,27 +15,42 @@ The code is based on the [Console Component](https://docs.espressif.com/projects
 ```
 $ . $HOME/esp/esp-idf-v5.1.2/export.sh
 ```
-- Use board [Seeed Studio XIAO ESP32S3 Sense](https://wiki.seeedstudio.com/xiao_esp32s3_getting_started/)
-- Set the chip target to build
+- Add [led_strip](https://components.espressif.com/components/espressif/led_strip) component.
+```
+$ cd ~/esp/esp32_nat_router
+$ idf.py add-dependency "espressif/led_strip^3.0.0"
+```
+- Use development board
+    - [M5Stack Stamp-C3](https://docs.m5stack.com/en/core/stamp_c3) - `esp32c3`, 4MB, GPIO2 RGB LED, UART0 console.
+    - [M5Stack Stamp-C3U](https://docs.m5stack.com/en/core/stamp_c3u) - `esp32c3`, 4MB, GPIO2 RGB LED, USB console.
+    - [Seeed Studio XIAO ESP32S3 Sense](https://wiki.seeedstudio.com/xiao_esp32s3_getting_started/) - `esp32s3`, 8MB, GPIO21 inverted LED, USB console
+- Set the chip target to build (Stamp-C3)
 
 ```
-$ idf.py set-target esp32s3
+$ idf.py set-target esp32c3
 ```
 - Open the project configuration menu
 ```
 $ idf.py menuconfig
 ```
-- Set Flash size  to 8 MB
+- Set flash size
 ```
 (Top) -> Serial flasher config
-    Flash size (8 MB)  --->
+    Flash size (4 MB)  --->
 ```
-- Use `USB Serial` for console output
+- Set console output
 ```
 (Top) -> Component config -> ESP System Settings
-    Channel for console output (USB Serial/JTAG Controller)  --->
+    Channel for console output (Default: UART0)  --->
     Channel for console secondary output (No secondary console)  --->
 ```
+- Set LED control
+```
+(Top)-> Example Configuration -> LED setup
+    Blink LED type (RMT - Addressable LED)  --->
+(2) Blink GPIO number
+```
+
 - Save configuration and build the project
 ```
 $ idf.py build
@@ -43,6 +58,7 @@ $ idf.py build
 - Connect your device
 - Flash onto the device
 ```
+$ idf.py -p /dev/ttyACM0 erase_flash # erase parameters
 $ idf.py -p /dev/ttyACM0 flash monitor
 ```
 - To exit IDF monitor use the shortcut `Ctrl+]`.
@@ -182,6 +198,8 @@ nvs_namespace  <namespace>
 
 nvs_list  <partition> [-n <namespace>] [-t <type>]
   List stored key-value pairs stored in NVS.Namespace and type can be specified
+
+set_ap c3uhotspot 12358134
   to print only those key-value pairs.
   
 Following command list variables stored inside 'nvs' partition, under namespace 'storage' with type uint32_t
