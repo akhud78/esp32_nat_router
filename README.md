@@ -13,7 +13,8 @@ The code is based on the [Console Component](https://docs.espressif.com/projects
 ## Build
 - Set up the environment variables
 ```
-$ . $HOME/esp/esp-idf-v5.1.2/export.sh
+$ export IDF_TOOLS_PATH="$HOME/idf-tools-v5.4"
+$ . $HOME/esp/esp-idf-v5.4/export.sh
 ```
 - Add [led_strip](https://components.espressif.com/components/espressif/led_strip) component.
 ```
@@ -248,6 +249,14 @@ show
 ```
 
 If you want to enter non-ASCII or special characters (incl. ' ') you can use HTTP-style hex encoding (e.g. "My%20AccessPoint" results in a string "My AccessPoint").
+
+## Example
+```
+set_ap  c3hotspot 12345678
+set_sta Keenetic-1234 qwerty42
+show
+restart
+```
 
 ## Set console output to UART or USB_SERIAL_JTAG (USB-OTG)
 All newer ESP32 boards have a built in [USB Serial/JTAG Controller](https://docs.espressif.com/projects/esp-idf/en/latest/esp32c3/api-guides/usb-serial-jtag-console.html). 
