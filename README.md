@@ -42,7 +42,7 @@ $ idf.py menuconfig
 - Set console output
 ```
 (Top) -> Component config -> ESP System Settings
-    Channel for console output (Default: UART0)  --->
+    Channel for console output (USB Serial/JTAG Controller)  --->
     Channel for console secondary output (No secondary console)  --->
 ```
 - Set LED control
@@ -52,7 +52,7 @@ $ idf.py menuconfig
 (21) Blink GPIO number
 [*] Inverted
 ```
-- Set Max WiFi TX power
+- Set Max WiFi TX power 
 ```
 (Top)-> Component config -> PHY
 (14) Max WiFi TX power (dBm)
