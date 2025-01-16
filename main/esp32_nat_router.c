@@ -569,7 +569,7 @@ void wifi_init(const uint8_t* mac, const char* ssid, const char* ent_username, c
     if (strlen(ap_passwd) < 8) {
         ap_config.ap.authmode = WIFI_AUTH_OPEN;
     } else {
-	    strlcpy((char*)ap_config.sta.password, ap_passwd, sizeof(ap_config.sta.password));
+        strlcpy((char*)ap_config.sta.password, ap_passwd, sizeof(ap_config.sta.password));
     }
 
     if (strlen(ssid) > 0) {
@@ -624,6 +624,16 @@ void wifi_init(const uint8_t* mac, const char* ssid, const char* ent_username, c
     xEventGroupWaitBits(wifi_event_group, CONNECTED_BIT,
         pdFALSE, pdTRUE, JOIN_TIMEOUT_MS / portTICK_PERIOD_MS);
     ESP_ERROR_CHECK(esp_wifi_start());
+
+    // https://github.com/espressif/esp-idf/issues/9949
+    uint8_t getprotocol;
+    esp_err_t err;
+    err = esp_wifi_get_protocol(WIFI_MODE_APSTA, &getprotocol);
+    if (err != ESP_OK) {
+        printf("Could not get protocol!");
+        //log_e("Could not get protocol! %d", err);
+        //return false;
+    }
 
     if (strlen(ssid) > 0) {
         ESP_LOGI(TAG, "wifi_init_apsta finished.");

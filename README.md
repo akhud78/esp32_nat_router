@@ -25,10 +25,10 @@ $ idf.py add-dependency "espressif/led_strip^3.0.0"
     - [M5Stack Stamp-C3](https://docs.m5stack.com/en/core/stamp_c3) - `esp32c3`, 4MB, GPIO2 RGB LED, UART0 console.
     - [M5Stack Stamp-C3U](https://docs.m5stack.com/en/core/stamp_c3u) - `esp32c3`, 4MB, GPIO2 RGB LED, USB console.
     - [Seeed Studio XIAO ESP32S3 Sense](https://wiki.seeedstudio.com/xiao_esp32s3_getting_started/) - `esp32s3`, 8MB, GPIO21 inverted LED, USB console
-- Set the chip target to build (Stamp-C3)
+- Set the chip target to build (XIAO)
 
 ```
-$ idf.py set-target esp32c3
+$ idf.py set-target esp32s3
 ```
 - Open the project configuration menu
 ```
@@ -37,19 +37,25 @@ $ idf.py menuconfig
 - Set flash size
 ```
 (Top) -> Serial flasher config
-    Flash size (4 MB)  --->
+    Flash size (8 MB)  --->
 ```
 - Set console output
 ```
 (Top) -> Component config -> ESP System Settings
-    Channel for console output (Default: UART0)  --->
+    Channel for console output (USB Serial/JTAG Controller)  --->
     Channel for console secondary output (No secondary console)  --->
 ```
 - Set LED control
 ```
 (Top)-> Example Configuration -> LED setup
     Blink LED type (RMT - Addressable LED)  --->
-(2) Blink GPIO number
+(21) Blink GPIO number
+[*] Inverted
+```
+- Set Max WiFi TX power :boom:
+```
+(Top)-> Component config -> PHY
+(14) Max WiFi TX power (dBm)
 ```
 
 - Save configuration and build the project
@@ -199,8 +205,6 @@ nvs_namespace  <namespace>
 
 nvs_list  <partition> [-n <namespace>] [-t <type>]
   List stored key-value pairs stored in NVS.Namespace and type can be specified
-
-set_ap c3uhotspot 12358134
   to print only those key-value pairs.
   
 Following command list variables stored inside 'nvs' partition, under namespace 'storage' with type uint32_t
@@ -252,7 +256,7 @@ If you want to enter non-ASCII or special characters (incl. ' ') you can use HTT
 
 ## Example
 ```
-set_ap  c3hotspot 12345678
+set_ap  s3hotspot 12345678
 set_sta Keenetic-1234 qwerty42
 show
 restart
