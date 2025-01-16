@@ -52,7 +52,7 @@ $ idf.py menuconfig
 (21) Blink GPIO number
 [*] Inverted
 ```
-- Set Max WiFi TX power 
+- Set Max WiFi TX power :boom:
 ```
 (Top)-> Component config -> PHY
 (14) Max WiFi TX power (dBm)
