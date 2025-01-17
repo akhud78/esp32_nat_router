@@ -21,6 +21,10 @@ $ . $HOME/esp/esp-idf-v5.4/export.sh
 $ cd ~/esp/esp32_nat_router
 $ idf.py add-dependency "espressif/led_strip^3.0.0"
 ```
+- Add [mDNS Service](https://components.espressif.com/components/espressif/mdns) component
+```
+$ idf.py add-dependency "espressif/mdns^1.4.3"
+```
 - Use development board
     - [M5Stack Stamp-Pico](https://docs.m5stack.com/en/core/stamp_pico) - `esp32`, GPIO27 RGB LED, UART0 console.
     - [M5Stack Stamp-C3](https://docs.m5stack.com/en/core/stamp_c3) - `esp32c3`, GPIO2 RGB LED, UART0 console.
@@ -30,15 +34,16 @@ $ idf.py add-dependency "espressif/led_strip^3.0.0"
 ```
 $ idf.py set-target esp32s3
 ```
+
 - Open the project configuration menu
 ```
 $ idf.py menuconfig
 ```
-- Set console output
+- Set mDNS (optional)
 ```
-(Top) -> Component config -> ESP System Settings
-    Channel for console output (USB Serial/JTAG Controller)  --->
-    Channel for console secondary output (No secondary console)  --->
+(Top)-> Example Configuration
+[*] Use mDNS Service
+(esp32-nr) mDNS hostname
 ```
 - Set LED control
 ```
@@ -56,6 +61,12 @@ $ idf.py menuconfig
 ```
 (Top) -> Component config -> Log -> Format
 [*] Color
+```
+- Set console output
+```
+(Top) -> Component config -> ESP System Settings
+    Channel for console output (USB Serial/JTAG Controller)  --->
+    Channel for console secondary output (No secondary console)  --->
 ```
 - Save configuration and build the project
 ```
@@ -268,6 +279,7 @@ nvs_erase ssid
 nvs_erase passwd
 restart
 ```
+- Open [esp32-nr.local](http://esp32-nr.local/) to check `mDNS`.
 
 ## Set console output to UART or USB_SERIAL_JTAG (USB-OTG)
 All newer ESP32 boards have a built in [USB Serial/JTAG Controller](https://docs.espressif.com/projects/esp-idf/en/latest/esp32c3/api-guides/usb-serial-jtag-console.html). 

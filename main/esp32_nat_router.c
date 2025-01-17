@@ -26,6 +26,7 @@
 #include "freertos/event_groups.h"
 #include "esp_wifi.h"
 #include "esp_eap_client.h"
+#include "mdns.h"
 
 #include "lwip/opt.h"
 #include "lwip/err.h"
@@ -46,6 +47,8 @@
 
 // On board LED
 #define BLINK_GPIO              (CONFIG_BLINK_GPIO)
+#define MDNS_HOSTNAME           (CONFIG_MDNS_HOSTNAME)
+#define USE_MDNS_SERVICE        (CONFIG_USE_MDNS_SERVICE)
 
 #ifdef CONFIG_BLINK_LED_RMT
 #include "led_strip.h"
@@ -503,6 +506,14 @@ static void wifi_event_handler(void* arg, esp_event_base_t event_base,
 const int CONNECTED_BIT = BIT0;
 #define JOIN_TIMEOUT_MS (2000)
 
+static void initialise_mdns(void)
+{
+    //initialize mDNS
+    ESP_ERROR_CHECK( mdns_init() );
+    //set mDNS hostname (required if you want to advertise services)
+    ESP_ERROR_CHECK( mdns_hostname_set(MDNS_HOSTNAME) );
+    ESP_LOGI(TAG, "mdns hostname set to: [%s]", MDNS_HOSTNAME);
+}
 
 void wifi_init(const uint8_t* mac, const char* ssid, const char* ent_username, const char* ent_identity, const char* passwd, const char* static_ip, const char* subnet_mask, const char* gateway_addr, const uint8_t* ap_mac, const char* ap_ssid, const char* ap_passwd, const char* ap_ip)
 {
@@ -631,6 +642,11 @@ void wifi_init(const uint8_t* mac, const char* ssid, const char* ent_username, c
     } else {
         ESP_LOGI(TAG, "wifi_init_ap with default finished.");      
     }
+    
+#if CONFIG_USE_MDNS_SERVICE
+    initialise_mdns();
+#endif
+    
 }
 
 uint8_t* mac = NULL;

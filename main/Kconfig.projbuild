@@ -1,5 +1,15 @@
 menu "Example Configuration"
 
+    config USE_MDNS_SERVICE
+        bool "Use mDNS Service"
+        default n
+
+    config MDNS_HOSTNAME
+        string "mDNS hostname"
+        default "esp32-nr"
+        help
+            Hostname that the device will respond to.
+
     config STORE_HISTORY
         bool "Store command history in flash"
         default y
