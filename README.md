@@ -22,9 +22,9 @@ $ cd ~/esp/esp32_nat_router
 $ idf.py add-dependency "espressif/led_strip^3.0.0"
 ```
 - Use development board
-    - [M5Stack Stamp-C3](https://docs.m5stack.com/en/core/stamp_c3) - `esp32c3`, 4MB, GPIO2 RGB LED, UART0 console.
-    - [M5Stack Stamp-C3U](https://docs.m5stack.com/en/core/stamp_c3u) - `esp32c3`, 4MB, GPIO2 RGB LED, USB console.
-    - [Seeed Studio XIAO ESP32S3 Sense](https://wiki.seeedstudio.com/xiao_esp32s3_getting_started/) - `esp32s3`, 8MB, GPIO21 inverted LED, USB console
+    - [M5Stack Stamp-Pico](https://docs.m5stack.com/en/core/stamp_pico) - `esp32`, GPIO27 RGB LED, UART0 console.
+    - [M5Stack Stamp-C3](https://docs.m5stack.com/en/core/stamp_c3) - `esp32c3`, GPIO2 RGB LED, UART0 console.
+    - [Seeed Studio XIAO ESP32S3 Sense](https://wiki.seeedstudio.com/xiao_esp32s3_getting_started/) - `esp32s3`, GPIO21 inverted LED, USB console
 - Set the chip target to build (XIAO)
 
 ```
@@ -33,11 +33,6 @@ $ idf.py set-target esp32s3
 - Open the project configuration menu
 ```
 $ idf.py menuconfig
-```
-- Set flash size
-```
-(Top) -> Serial flasher config
-    Flash size (8 MB)  --->
 ```
 - Set console output
 ```
@@ -48,7 +43,7 @@ $ idf.py menuconfig
 - Set LED control
 ```
 (Top)-> Example Configuration -> LED setup
-    Blink LED type (RMT - Addressable LED)  --->
+    Blink LED type (GPIO)  --->
 (21) Blink GPIO number
 [*] Inverted
 ```
@@ -57,7 +52,11 @@ $ idf.py menuconfig
 (Top)-> Component config -> PHY
 (14) Max WiFi TX power (dBm)
 ```
-
+- Set Log colors (optional)
+```
+(Top) -> Component config -> Log -> Format
+[*] Color
+```
 - Save configuration and build the project
 ```
 $ idf.py build
@@ -255,10 +254,18 @@ show
 If you want to enter non-ASCII or special characters (incl. ' ') you can use HTTP-style hex encoding (e.g. "My%20AccessPoint" results in a string "My AccessPoint").
 
 ## Example
+- Set AP and STA Settings
 ```
 set_ap  s3hotspot 12345678
 set_sta Keenetic-1234 qwerty42
 show
+restart
+```
+- Forget STA Settings (uplink WiFi network)
+```
+nvs_namespace esp32_nat
+nvs_erase ssid
+nvs_erase passwd
 restart
 ```
 
